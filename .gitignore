@@ -1,0 +1,13 @@
+.vs
+.vscode
+*/bin/
+*/obj/
+*/Properties/
+*.cfg
+ctf.json
+ctf.*.json
+*.code-workspace
+data
+obj
+*.binlog
+bambixploit.json
