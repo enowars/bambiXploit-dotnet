@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace bambiXploit_dotnet
+namespace bambixploit
 {
     public record Configuration(
         Regex FlagRegex,
@@ -12,5 +12,6 @@ namespace bambiXploit_dotnet
         string[] Targets,
         IPAddress SubmissionAddress,
         int SubmissionPort,
+        bool DebugSubmission,
         Guid RunGuid);
 }

@@ -1,4 +1,4 @@
-namespace bambiXploit_dotnet
+namespace bambixploit
 {
     using System;
     using System.Collections.Concurrent;
@@ -48,6 +48,11 @@ namespace bambiXploit_dotnet
                 {
                     var conn = new TcpClient();
                     await conn.ConnectAsync(this.config.SubmissionAddress, this.config.SubmissionPort);
+                    if (this.config.DebugSubmission)
+                    {
+                        await conn.Client.SendAsync(Encoding.ASCII.GetBytes("1\n"), SocketFlags.None, CancellationToken.None);
+                    }
+                    
                     var responsesTask = Task.Run(async () => await HandleResponses(conn.GetStream()));
 
                     foreach ((var flag, var _) in this.transitFlags)
@@ -80,13 +85,24 @@ namespace bambiXploit_dotnet
                     try
                     {
                         var split = line.Split(' ');
-                        var result = split[0];
-                        var flag = split[1];
+                        var flag = split[0];
+                        var result = split[1];
 
                         this.transitFlags.TryRemove(flag, out var _);
-                        if (result == "OK")
+
+                        if (this.config.DebugSubmission)
                         {
-                            Statistics.AddOkFlags(1);
+                            if (result.StartsWith("INV"))
+                            {
+                                Statistics.AddOkFlags(1);
+                            }
+                        }
+                        else
+                        {
+                            if (result.StartsWith("OK"))
+                            {
+                                Statistics.AddOkFlags(1);
+                            }
                         }
                     }
                     catch (Exception e)

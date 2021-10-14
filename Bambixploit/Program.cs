@@ -1,4 +1,4 @@
-﻿namespace bambiXploit_dotnet
+﻿namespace bambixploit
 {
     using System;
     using System.IO;
@@ -19,9 +19,11 @@
             ReadCommentHandling = JsonCommentHandling.Skip,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
+        private readonly Configuration configuration;
 
-        public Program(Exploiter exploiter, Submitter submitter)
+        public Program(Exploiter exploiter, Submitter submitter, Configuration configuration)
         {
+            this.configuration = configuration;
             exploiter.Start();
             submitter.Start();
         }
@@ -66,7 +68,8 @@
                     jsonConfiguration.Addresses,
                     IPAddress.Parse(jsonConfiguration.SubmissionAddress),
                     jsonConfiguration.SubmissionPort,
-                    new Guid()
+                    jsonConfiguration.DebugSubmission,
+                    Guid.NewGuid()
                 ))
                 .AddSingleton<Program>()
                 .AddSingleton<Submitter>()
@@ -98,8 +101,9 @@
                 var statusBar = new StatusBar(new StatusItem[] {
                     new StatusItem(Key.CtrlMask | Key.Q, "~^Q~ Quit", () => Application.RequestStop()),
                 });
-                tabView.AddTab(new TabView.Tab("Statistics", new SubmissionsGraph()), false);
-                tabView.AddTab(new TabView.Tab("Details", new Label("coming soon")), false);
+                tabView.AddTab(new TabView.Tab("Submissions", new SubmissionsGraph()), true);
+                tabView.AddTab(new TabView.Tab("Logs", new Label("coming soon")), false);
+                tabView.AddTab(new TabView.Tab("Debug", new DebugView(this.configuration)), false);
 
                 top.Add(tabView);
                 top.Add(statusBar);

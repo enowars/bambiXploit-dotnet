@@ -1,4 +1,4 @@
-namespace bambiXploit_dotnet
+namespace bambixploit
 {
     using System;
     using System.Threading.Tasks;
@@ -12,6 +12,7 @@ namespace bambiXploit_dotnet
 
         public SubmissionsGraph() : base()
         {
+            this.CanFocus = false;
             this.X = 0;
             this.Y = 0;
             this.Width = Dim.Fill();
@@ -32,10 +33,10 @@ namespace bambiXploit_dotnet
             this.AxisX.LabelGetter = (v) =>
             {
                 var end = DateTimeOffset.UtcNow;
-                return this.begin.AddSeconds(v.Value).ToString("hh:mm");
+                return this.begin.AddSeconds(v.Value).ToString("HH:mm");
             };
 
-            this.AxisY.Text = "Flags";
+            // this.AxisY.Text = "Flags";
             this.AxisY.LabelGetter = (v) => v.Value.ToString("N2");
 
             SetNeedsDisplay();
@@ -54,12 +55,16 @@ namespace bambiXploit_dotnet
                 }
 
                 this.line.Points.Clear();
+                var tickHeight = this.Frame.Width / 5;
                 var minTimestamp = this.begin = currentStatistics[0].Timestamp;
                 var minOkFlags = currentStatistics[0].OkFlags;
                 var maxTimestamp = currentStatistics[^1].Timestamp;
                 var maxOkFlags = currentStatistics[^1].OkFlags;
                 var timestampDiff = maxTimestamp - minTimestamp;
                 var flagsDiff = maxOkFlags - minOkFlags;
+
+
+                var yEnd = Math.Pow(10, Math.Ceiling(Math.Log10(maxOkFlags)));
 
                 foreach (var flagStatistic in currentStatistics)
                 {
@@ -71,15 +76,20 @@ namespace bambiXploit_dotnet
                             okFlags));
                 }
 
-                this.AxisY.Increment = (float)(1);
+                this.AxisY.Increment = (float)yEnd/5;
                 this.AxisY.ShowLabelsEvery = 1;
 
-                this.AxisX.Increment = (float)(1);
+                this.AxisX.Increment = (float)(10);
                 this.AxisX.ShowLabelsEvery = (uint)(1);
 
-                this.ScrollOffset = new PointF(0, minOkFlags);
+                this.ScrollOffset = new PointF(0, 0);
                 float cellWidth = Math.Max(0.00000001f, (float)timestampDiff.TotalSeconds / Math.Max(1, this.Frame.Width));
-                float cellHeight = Math.Max(0.00000001f, ((float)flagsDiff) / Math.Max(1, this.Frame.Height));
+                float cellHeight = (float)(1.1f * Math.Max(10.0, yEnd) / Math.Max(1, this.Frame.Height));
+
+                if (cellHeight == 0)
+                {
+                    Console.WriteLine("wtf");
+                }
                 this.CellSize = new PointF(
                     cellWidth,
                     cellHeight);

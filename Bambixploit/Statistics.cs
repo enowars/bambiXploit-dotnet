@@ -1,4 +1,4 @@
-namespace bambiXploit_dotnet
+namespace bambixploit
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +29,6 @@ namespace bambiXploit_dotnet
         {
             while (true)
             {
-                AddOkFlags(1);
                 var newFlagStatistics = FlagStatistics.AsEnumerable().ToList();
                 newFlagStatistics.Add(new FlagsStatistic(
                     DateTimeOffset.Now,
@@ -40,7 +39,7 @@ namespace bambiXploit_dotnet
                 }
 
                 FlagStatistics = newFlagStatistics;
-                await Task.Delay(1000);
+                await Task.Delay(10000);
             }
         }
     }

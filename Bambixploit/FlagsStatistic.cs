@@ -1,4 +1,4 @@
-namespace bambiXploit_dotnet
+namespace bambixploit
 {
     using System;
     using System.Threading;
