@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terminal.Gui;
-
-namespace bambixploit
+﻿namespace Bambixploit
 {
+    using Terminal.Gui;
+
     public class DebugView : View
     {
-        public DebugView(Configuration configuration) : base()
+        public DebugView(Configuration configuration)
+            : base()
         {
             this.Height = Dim.Fill();
             this.Width = Dim.Fill();

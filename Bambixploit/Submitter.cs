@@ -1,17 +1,13 @@
-namespace bambixploit
+﻿namespace Bambixploit
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
-    using System.Linq;
     using System.Net.Sockets;
     using System.Text;
     using System.Threading;
     using System.Threading.Channels;
     using System.Threading.Tasks;
-    using RunProcessAsTask;
 
     public class Submitter
     {
@@ -52,8 +48,8 @@ namespace bambixploit
                     {
                         await conn.Client.SendAsync(Encoding.ASCII.GetBytes("1\n"), SocketFlags.None, CancellationToken.None);
                     }
-                    
-                    var responsesTask = Task.Run(async () => await HandleResponses(conn.GetStream()));
+
+                    var responsesTask = Task.Run(async () => await this.HandleResponses(conn.GetStream()));
 
                     foreach ((var flag, var _) in this.transitFlags)
                     {
@@ -62,7 +58,7 @@ namespace bambixploit
 
                     while (true)
                     {
-                        var flag = await inputChannel.Reader.ReadAsync();
+                        var flag = await this.inputChannel.Reader.ReadAsync();
                         this.transitFlags.TryAdd(flag, DummyChar);
                         await conn.Client.SendAsync(Encoding.ASCII.GetBytes($"{flag}\n"), SocketFlags.None, CancellationToken.None);
                     }

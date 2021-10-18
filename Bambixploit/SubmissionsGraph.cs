@@ -1,4 +1,4 @@
-namespace bambixploit
+﻿namespace Bambixploit
 {
     using System;
     using System.Threading.Tasks;
@@ -10,7 +10,8 @@ namespace bambixploit
         private readonly PathAnnotation line = new();
         private DateTimeOffset begin = DateTimeOffset.UtcNow;
 
-        public SubmissionsGraph() : base()
+        public SubmissionsGraph()
+            : base()
         {
             this.CanFocus = false;
             this.X = 0;
@@ -23,7 +24,7 @@ namespace bambixploit
 
             // Draw line first so it does not draw over top of points or axis labels
             this.line.BeforeSeries = true;
-            this.Annotations.Add(line);
+            this.Annotations.Add(this.line);
 
             // leave space for axis labels
             this.MarginBottom = 2;
@@ -39,8 +40,8 @@ namespace bambixploit
             // this.AxisY.Text = "Flags";
             this.AxisY.LabelGetter = (v) => v.Value.ToString("N2");
 
-            SetNeedsDisplay();
-            Update();
+            this.SetNeedsDisplay();
+            this.Update();
         }
 
         private async void Update()
@@ -62,25 +63,23 @@ namespace bambixploit
                 var maxOkFlags = currentStatistics[^1].OkFlags;
                 var timestampDiff = maxTimestamp - minTimestamp;
                 var flagsDiff = maxOkFlags - minOkFlags;
-
-
                 var yEnd = Math.Pow(10, Math.Ceiling(Math.Log10(maxOkFlags)));
 
                 foreach (var flagStatistic in currentStatistics)
                 {
                     float okFlags = (float)flagStatistic.OkFlags;
                     var timestampOffset = flagStatistic.Timestamp - minTimestamp;
-                    line.Points.Add(
+                    this.line.Points.Add(
                         new PointF(
                             (float)timestampOffset.TotalSeconds,
                             okFlags));
                 }
 
-                this.AxisY.Increment = (float)yEnd/5;
+                this.AxisY.Increment = (float)yEnd / 5;
                 this.AxisY.ShowLabelsEvery = 1;
 
-                this.AxisX.Increment = (float)(10);
-                this.AxisX.ShowLabelsEvery = (uint)(1);
+                this.AxisX.Increment = 10;
+                this.AxisX.ShowLabelsEvery = 1;
 
                 this.ScrollOffset = new PointF(0, 0);
                 float cellWidth = Math.Max(0.00000001f, (float)timestampDiff.TotalSeconds / Math.Max(1, this.Frame.Width));
@@ -90,6 +89,7 @@ namespace bambixploit
                 {
                     Console.WriteLine("wtf");
                 }
+
                 this.CellSize = new PointF(
                     cellWidth,
                     cellHeight);

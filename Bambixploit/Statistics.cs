@@ -1,24 +1,23 @@
-namespace bambixploit
+﻿namespace Bambixploit
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Terminal.Gui;
 
     public static class Statistics
     {
         private static long okFlags;
 
-        public static long OkFlags => Interlocked.Read(ref okFlags);
-
-        public static List<FlagsStatistic> FlagStatistics { get; set; } = new();
-
         static Statistics()
         {
             Task.Run(Aggregate);
         }
+
+        public static long OkFlags => Interlocked.Read(ref okFlags);
+
+        public static List<FlagsStatistic> FlagStatistics { get; set; } = new();
 
         public static void AddOkFlags(long newOkFlags)
         {
