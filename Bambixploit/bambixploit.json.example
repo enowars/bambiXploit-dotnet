@@ -1,0 +1,7 @@
+{
+  "flagRegex": "ENO[A-Za-z0-9+\/=]{48}",
+  "addresses": ["127.0.0.2", "127.0.0.3", "127.0.0.4", "127.0.0.5"],
+  "submissionAddress": "127.0.0.1",
+  "submissionPort": 1337,
+  "interval": 5
+}
