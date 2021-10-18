@@ -20,10 +20,12 @@
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
         private readonly Configuration configuration;
+        private readonly Storage storage;
 
-        public Program(Exploiter exploiter, Submitter submitter, Configuration configuration)
+        public Program(Exploiter exploiter, Submitter submitter, Storage storage, Configuration configuration)
         {
             this.configuration = configuration;
+            this.storage = storage;
             exploiter.Start();
             submitter.Start();
         }
@@ -74,6 +76,7 @@
                 .AddSingleton<Program>()
                 .AddSingleton<Submitter>()
                 .AddSingleton<Exploiter>()
+                .AddSingleton<Storage>()
                 .BuildServiceProvider(validateScopes: true);
 
             // Go!
@@ -102,7 +105,7 @@
                     new StatusItem(Key.CtrlMask | Key.Q, "~^Q~ Quit", () => Application.RequestStop()),
                 });
                 tabView.AddTab(new TabView.Tab("Submissions", new SubmissionsGraph()), true);
-                tabView.AddTab(new TabView.Tab("Logs", new Label("coming soon")), false);
+                tabView.AddTab(new TabView.Tab("Logs", new LogsView(this.storage)), false);
                 tabView.AddTab(new TabView.Tab("Debug", new DebugView(this.configuration)), false);
 
                 top.Add(tabView);
