@@ -3,7 +3,6 @@ name: Publish
 on:
   release:
     types: [published]
-  push:
 
 jobs:
   release:
@@ -25,9 +24,9 @@ jobs:
       - name: Tree
         run: |
           tree ./artifacts
-#      - name: Publish
-#        uses: softprops/action-gh-release@v1
-#        with:
-#          files: "App*"
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "./artifacts/*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
