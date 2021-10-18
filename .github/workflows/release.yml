@@ -1,0 +1,28 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+  push:
+
+jobs:
+  release:
+    name: Release
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+      - name: Build Release
+        run: | 
+           dotnet publish -c Release -r win-x64
+           dotnet publish -c Release -r linux-x64
+      - name: Tree
+        run: tree
+#      - name: Publish
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          files: "App*"
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
