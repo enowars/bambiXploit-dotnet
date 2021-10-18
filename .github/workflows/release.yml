@@ -20,7 +20,7 @@ jobs:
            dotnet publish -c Release --self-contained true -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r win-x64
            dotnet publish -c Release --self-contained true -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r linux-x64
       - name: Tree
-        run: tree ./bin/Release
+        run: tree ./Bambixploit/bin/Release
 #      - name: Publish
 #        uses: softprops/action-gh-release@v1
 #        with:
