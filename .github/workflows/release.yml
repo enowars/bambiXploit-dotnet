@@ -20,7 +20,7 @@ jobs:
            dotnet publish -c Release -r win-x64
            dotnet publish -c Release -r linux-x64
       - name: Tree
-        run: tree
+        run: tree ./bin/Release
 #      - name: Publish
 #        uses: softprops/action-gh-release@v1
 #        with:
