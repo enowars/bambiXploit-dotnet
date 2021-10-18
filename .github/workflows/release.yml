@@ -17,8 +17,8 @@ jobs:
         run: dotnet test --no-restore --verbosity normal
       - name: Build Release
         run: | 
-           dotnet publish -c Release --self-contained true -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r win-x64
-           dotnet publish -c Release --self-contained true -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r linux-x64
+           dotnet publish -c Release --self-contained true -p:DebugType=embedded -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r win-x64
+           dotnet publish -c Release --self-contained true -p:DebugType=embedded -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r linux-x64
       - name: Tree
         run: |
           tree ./Bambixploit/bin/Release/net5.0/win-x64/publish
