@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace bambixploit
@@ -14,10 +11,10 @@ namespace bambixploit
         public Storage(Configuration configuration)
         {
             this.configuration = configuration;
-            Directory.CreateDirectory(this.PathPrefix);
+            Directory.CreateDirectory(PathPrefix);
         }
 
-        public string PathPrefix => $"./.bambixploit/{this.configuration.RunGuid}";
+        public string PathPrefix => $"./.bambixploit/{configuration.RunGuid}";
 
         public long LatestRound { get; set; } = 10;
 
@@ -25,7 +22,8 @@ namespace bambixploit
         {
             Directory.CreateDirectory($"{PathPrefix}/{round}");
             var outTask = File.WriteAllLinesAsync($"{PathPrefix}/{round}/{target}.stdout", stdout);
-            var errTask = File.WriteAllLinesAsync($"{PathPrefix}/{this.configuration.RunGuid}/{round}/{target}.stderr", stderr);
+            var errTask =
+                File.WriteAllLinesAsync($"{PathPrefix}/{configuration.RunGuid}/{round}/{target}.stderr", stderr);
             await outTask;
             await errTask;
         }

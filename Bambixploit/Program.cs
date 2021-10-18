@@ -1,24 +1,24 @@
-﻿namespace bambixploit
-{
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.Text.Json;
-    using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
-    using Microsoft.Extensions.DependencyInjection;
-    using Terminal.Gui;
-    using Terminal.Gui.Graphs;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Terminal.Gui;
 
+namespace bambixploit
+{
     public class Program
     {
         private static readonly JsonSerializerOptions CamelCaseEnumConverterOptions = new()
         {
             AllowTrailingCommas = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
+
         private readonly Configuration configuration;
         private readonly Storage storage;
 
@@ -34,7 +34,7 @@
         {
             if (args.Length < 1)
             {
-                Console.WriteLine($"Missing argument.");
+                Console.WriteLine("Missing argument.");
                 return 1;
             }
 
@@ -46,11 +46,9 @@
             try
             {
                 string content = File.ReadAllText("bambixploit.json");
-                var deserialized = JsonSerializer.Deserialize<JsonConfiguration>(content, CamelCaseEnumConverterOptions);
-                if (deserialized == null)
-                {
-                    throw new Exception("Deserialize returned null");
-                }
+                var deserialized =
+                    JsonSerializer.Deserialize<JsonConfiguration>(content, CamelCaseEnumConverterOptions);
+                if (deserialized == null) throw new Exception("Deserialize returned null");
 
                 jsonConfiguration = deserialized;
             }
@@ -77,7 +75,7 @@
                 .AddSingleton<Submitter>()
                 .AddSingleton<Exploiter>()
                 .AddSingleton<Storage>()
-                .BuildServiceProvider(validateScopes: true);
+                .BuildServiceProvider(true);
 
             // Go!
             var program = serviceProvider.GetRequiredService<Program>();
@@ -93,20 +91,21 @@
                 Application.Init();
 
                 var top = Application.Top;
-                var tabView = new TabView()
+                var tabView = new TabView
                 {
                     X = 0,
                     Y = 0,
                     Width = Dim.Fill(),
-                    Height = Dim.Fill(),
+                    Height = Dim.Fill()
                 };
 
-                var statusBar = new StatusBar(new StatusItem[] {
-                    new StatusItem(Key.CtrlMask | Key.Q, "~^Q~ Quit", () => Application.RequestStop()),
+                var statusBar = new StatusBar(new[]
+                {
+                    new(Key.CtrlMask | Key.Q, "~^Q~ Quit", () => Application.RequestStop())
                 });
                 tabView.AddTab(new TabView.Tab("Submissions", new SubmissionsGraph()), true);
-                tabView.AddTab(new TabView.Tab("Logs", new LogsView(this.storage)), false);
-                tabView.AddTab(new TabView.Tab("Debug", new DebugView(this.configuration)), false);
+                tabView.AddTab(new TabView.Tab("Logs", new LogsView(storage)), false);
+                tabView.AddTab(new TabView.Tab("Debug", new DebugView(configuration)), false);
 
                 top.Add(tabView);
                 top.Add(statusBar);
