@@ -77,6 +77,19 @@ namespace bambixploit
         private async Task HandleResponses(Stream stream)
         {
             using var reader = new StreamReader(stream, Encoding.UTF8);
+
+            // Read until the end of the welcome banner (\n\n)
+            string banner = string.Empty;
+            while (true)
+            {
+                var line = await reader.ReadLineAsync();
+                banner += line + "\n";
+                if (line == string.Empty)
+                {
+                    break;
+                }
+            }
+
             while (!reader.EndOfStream)
             {
                 var line = await reader.ReadLineAsync();
