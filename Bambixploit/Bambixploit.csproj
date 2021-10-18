@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="RunProcessAsTask" Version="1.2.4" />
-    <ProjectReference Include="..\..\gui.cs\Terminal.Gui\Terminal.Gui.csproj" />
+    <PackageReference Include="Terminal.Gui" Version="1.2.1" />
   </ItemGroup>
 
 </Project>
