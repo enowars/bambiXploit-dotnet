@@ -12,3 +12,4 @@ obj
 *.binlog
 bambixploit.json
 .bambixploit/
+.idea/
