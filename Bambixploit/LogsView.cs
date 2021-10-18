@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terminal.Gui;
-
-namespace bambixploit
+﻿namespace Bambixploit
 {
+    using System.Collections.Generic;
+    using Terminal.Gui;
+
     public class LogsView : View
     {
         private readonly Storage storage;
         private readonly List<string> roundsList = new();
 
-        public LogsView(Storage storage) : base()
+        public LogsView(Storage storage)
+            : base()
         {
             this.storage = storage;
             this.Height = Dim.Fill();
@@ -38,8 +35,6 @@ namespace bambixploit
             testlabel.Width = Dim.Fill();
             testlabel.Height = Dim.Fill();
             this.Add(testlabel);
-
-
             this.LayoutSubviews();
             this.SetNeedsDisplay();
         }
@@ -47,7 +42,7 @@ namespace bambixploit
         private void Update()
         {
             this.roundsList.Clear();
-            for (long i = storage.LatestRound; i > storage.LatestRound - 20; i--)
+            for (long i = this.storage.LatestRound; i > this.storage.LatestRound - 20; i--)
             {
                 if (i < 1)
                 {

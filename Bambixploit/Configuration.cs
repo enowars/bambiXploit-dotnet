@@ -1,9 +1,9 @@
-using System;
-using System.Net;
-using System.Text.RegularExpressions;
-
-namespace bambixploit
+﻿namespace Bambixploit
 {
+    using System;
+    using System.Net;
+    using System.Text.RegularExpressions;
+
     public record Configuration(
         Regex FlagRegex,
         string Command,

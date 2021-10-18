@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace bambixploit
+﻿namespace Bambixploit
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+
     public class Storage
     {
         private readonly Configuration configuration;
@@ -23,9 +20,9 @@ namespace bambixploit
 
         public async Task SaveLogs(List<string> stdout, List<string> stderr, long round, string target)
         {
-            Directory.CreateDirectory($"{PathPrefix}/{round}");
-            var outTask = File.WriteAllLinesAsync($"{PathPrefix}/{round}/{target}.stdout", stdout);
-            var errTask = File.WriteAllLinesAsync($"{PathPrefix}/{this.configuration.RunGuid}/{round}/{target}.stderr", stderr);
+            Directory.CreateDirectory($"{this.PathPrefix}/{round}");
+            var outTask = File.WriteAllLinesAsync($"{this.PathPrefix}/{round}/{target}.stdout", stdout);
+            var errTask = File.WriteAllLinesAsync($"{this.PathPrefix}/{this.configuration.RunGuid}/{round}/{target}.stderr", stderr);
             await outTask;
             await errTask;
         }

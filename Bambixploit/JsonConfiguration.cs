@@ -1,7 +1,4 @@
-using System.Net;
-using System.Text.RegularExpressions;
-
-namespace bambixploit
+﻿namespace Bambixploit
 {
     public record JsonConfiguration(
         string FlagRegex,

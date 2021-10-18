@@ -1,4 +1,4 @@
-﻿namespace bambixploit
+﻿namespace Bambixploit
 {
     using System;
     using System.IO;
@@ -9,7 +9,6 @@
     using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;
     using Terminal.Gui;
-    using Terminal.Gui.Graphs;
 
     public class Program
     {
@@ -19,6 +18,7 @@
             ReadCommentHandling = JsonCommentHandling.Skip,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
+
         private readonly Configuration configuration;
         private readonly Storage storage;
 
@@ -71,8 +71,7 @@
                     IPAddress.Parse(jsonConfiguration.SubmissionAddress),
                     jsonConfiguration.SubmissionPort,
                     jsonConfiguration.DebugSubmission,
-                    Guid.NewGuid()
-                ))
+                    Guid.NewGuid()))
                 .AddSingleton<Program>()
                 .AddSingleton<Submitter>()
                 .AddSingleton<Exploiter>()
@@ -101,7 +100,8 @@
                     Height = Dim.Fill(),
                 };
 
-                var statusBar = new StatusBar(new StatusItem[] {
+                var statusBar = new StatusBar(new StatusItem[]
+                {
                     new StatusItem(Key.CtrlMask | Key.Q, "~^Q~ Quit", () => Application.RequestStop()),
                 });
                 tabView.AddTab(new TabView.Tab("Submissions", new SubmissionsGraph()), true);
