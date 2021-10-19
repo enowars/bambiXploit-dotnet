@@ -6,6 +6,7 @@
     <RootNamespace>bambixploit</RootNamespace>
     <Nullable>enable</Nullable>
     <CodeAnalysisRuleSet>../ENOWARS.ruleset</CodeAnalysisRuleSet>
+    <Version>0.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
     <PackageReference Include="Terminal.Gui" Version="1.2.1" />
   </ItemGroup>
 

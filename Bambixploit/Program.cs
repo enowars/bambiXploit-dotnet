@@ -1,6 +1,8 @@
 ﻿namespace Bambixploit
 {
     using System;
+    using System.CommandLine;
+    using System.CommandLine.Invocation;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -9,6 +11,12 @@
     using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;
     using Terminal.Gui;
+
+    public enum ExploitTemplate
+    {
+        Http,
+        Binary,
+    }
 
     public class Program
     {
@@ -30,16 +38,45 @@
             submitter.Start();
         }
 
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-            if (args.Length < 1)
+            var templateCommand = new Command("template", "template command description")
+            {
+                new Argument<ExploitTemplate>("templateType", "one of the supported templates"),
+            };
+            templateCommand.Handler = CommandHandler.Create<ExploitTemplate>(Template);
+
+            var pwnCommand = new Command("pwn", "pwn command description")
+            {
+                new Argument<string>("command", "the exploit command to run")
+                {
+                    Arity = ArgumentArity.ExactlyOne,
+                },
+                new Argument<string[]>("arguments", "arguments for the exploit"),
+            };
+            pwnCommand.Handler = CommandHandler.Create<string, string[]>(Pwn);
+
+            var rootCommand = new RootCommand();
+            rootCommand.AddCommand(templateCommand);
+            rootCommand.AddCommand(pwnCommand);
+
+            return await rootCommand.InvokeAsync(args);
+        }
+
+        public static void Template(ExploitTemplate template)
+        {
+            ExploitTemplates.PrintTemplate(template);
+        }
+
+        public static void Pwn(string command, string[] arguments)
+        {
+            var argumentsString = string.Join(' ', arguments);
+            Console.WriteLine($"Pwn {command} {argumentsString}");
+            if (command.Length < 1)
             {
                 Console.WriteLine($"Missing argument.");
-                return 1;
+                return;
             }
-
-            string command = args[0];
-            string arguments = string.Join(' ', args.Skip(1));
 
             // Parse json configuration
             JsonConfiguration jsonConfiguration;
@@ -57,15 +94,17 @@
             catch (Exception e)
             {
                 Console.WriteLine($"Deserialization of config failed.\n{e.Message}\n{e.StackTrace}");
-                return 1;
+                return;
             }
+
+            return;
 
             // Build service collection with everything we need
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(new Configuration(
                     new Regex(jsonConfiguration.FlagRegex, RegexOptions.Compiled),
                     command,
-                    arguments,
+                    argumentsString,
                     jsonConfiguration.Interval,
                     jsonConfiguration.Addresses,
                     IPAddress.Parse(jsonConfiguration.SubmissionAddress),
@@ -81,7 +120,6 @@
             // Go!
             var program = serviceProvider.GetRequiredService<Program>();
             program.RunUI();
-            return 0;
         }
 
         private void RunUI()
