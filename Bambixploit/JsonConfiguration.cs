@@ -2,7 +2,7 @@
 {
     public record JsonConfiguration(
         string FlagRegex,
-        string[] Addresses,
+        string TargetsUrl,
         string SubmissionAddress,
         int SubmissionPort,
         bool DebugSubmission,

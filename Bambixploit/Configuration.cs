@@ -9,7 +9,7 @@
         string Command,
         string Arguments,
         int Interval,
-        string[] Targets,
+        string TargetsUrl,
         IPAddress SubmissionAddress,
         int SubmissionPort,
         bool DebugSubmission,

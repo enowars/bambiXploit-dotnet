@@ -106,7 +106,7 @@
                     command,
                     argumentsString,
                     jsonConfiguration.Interval,
-                    jsonConfiguration.Addresses,
+                    jsonConfiguration.TargetsUrl,
                     IPAddress.Parse(jsonConfiguration.SubmissionAddress),
                     jsonConfiguration.SubmissionPort,
                     jsonConfiguration.DebugSubmission,
