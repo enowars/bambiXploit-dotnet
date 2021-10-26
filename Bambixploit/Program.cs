@@ -15,7 +15,7 @@
     public enum ExploitTemplate
     {
         Http,
-        Binary,
+        /* Binary, */
     }
 
     public class Program
