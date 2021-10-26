@@ -46,7 +46,7 @@
             };
             templateCommand.Handler = CommandHandler.Create<ExploitTemplate>(Template);
 
-            var pwnCommand = new Command("pwn", "pwn command description")
+            var rootCommand = new RootCommand()
             {
                 new Argument<string>("command", "the exploit command to run")
                 {
@@ -54,11 +54,8 @@
                 },
                 new Argument<string[]>("arguments", "arguments for the exploit"),
             };
-            pwnCommand.Handler = CommandHandler.Create<string, string[]>(Pwn);
-
-            var rootCommand = new RootCommand();
+            rootCommand.Handler = CommandHandler.Create<string, string[]>(Pwn);
             rootCommand.AddCommand(templateCommand);
-            rootCommand.AddCommand(pwnCommand);
 
             return await rootCommand.InvokeAsync(args);
         }
@@ -96,8 +93,6 @@
                 Console.WriteLine($"Deserialization of config failed.\n{e.Message}\n{e.StackTrace}");
                 return;
             }
-
-            return;
 
             // Build service collection with everything we need
             var serviceProvider = new ServiceCollection()
