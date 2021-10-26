@@ -50,7 +50,7 @@
             {
                 var currentStatistics = Statistics.FlagStatistics;
                 var count = currentStatistics.Count;
-                if (count < 2)
+                if (count < 1)
                 {
                     continue;
                 }
@@ -95,6 +95,7 @@
                     cellHeight);
 
                 this.SetNeedsDisplay();
+                Console.WriteLine("########");
                 await Task.Delay(1000);
             }
         }

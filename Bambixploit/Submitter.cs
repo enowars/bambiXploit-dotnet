@@ -76,14 +76,17 @@
 
             // Read until the end of the welcome banner (\n\n)
             string banner = string.Empty;
+            bool firstLine = true;
             while (true)
             {
                 var line = await reader.ReadLineAsync();
                 banner += line + "\n";
-                if (line == string.Empty)
+                if (line == string.Empty && !firstLine)
                 {
                     break;
                 }
+
+                firstLine = false;
             }
 
             while (!reader.EndOfStream)

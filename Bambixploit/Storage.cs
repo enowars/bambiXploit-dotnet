@@ -22,7 +22,7 @@
         {
             Directory.CreateDirectory($"{this.PathPrefix}/{round}");
             var outTask = File.WriteAllLinesAsync($"{this.PathPrefix}/{round}/{target}.stdout", stdout);
-            var errTask = File.WriteAllLinesAsync($"{this.PathPrefix}/{this.configuration.RunGuid}/{round}/{target}.stderr", stderr);
+            var errTask = File.WriteAllLinesAsync($"{this.PathPrefix}/{round}/{target}.stderr", stderr);
             await outTask;
             await errTask;
         }
