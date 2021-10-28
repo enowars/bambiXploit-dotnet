@@ -38,7 +38,7 @@
             };
 
             // this.AxisY.Text = "Flags";
-            this.AxisY.LabelGetter = (v) => v.Value.ToString("N2");
+            this.AxisY.LabelGetter = (v) => v.Value.ToString("N0");
 
             this.SetNeedsDisplay();
             this.Update();

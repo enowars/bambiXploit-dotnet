@@ -32,7 +32,7 @@
                 newFlagStatistics.Add(new FlagsStatistic(
                     DateTimeOffset.Now,
                     Interlocked.Read(ref okFlags)));
-                if (newFlagStatistics.Count > 20)
+                if (newFlagStatistics.Count > 8)
                 {
                     newFlagStatistics.RemoveAt(0);
                 }
