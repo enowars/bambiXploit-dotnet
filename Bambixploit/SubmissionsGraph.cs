@@ -95,7 +95,6 @@
                     cellHeight);
 
                 this.SetNeedsDisplay();
-                Console.WriteLine("########");
                 await Task.Delay(1000);
             }
         }
