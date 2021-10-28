@@ -30,7 +30,7 @@
             {
                 var newFlagStatistics = FlagStatistics.AsEnumerable().ToList();
                 newFlagStatistics.Add(new FlagsStatistic(
-                    DateTimeOffset.Now,
+                    DateTimeOffset.UtcNow,
                     Interlocked.Read(ref okFlags)));
                 if (newFlagStatistics.Count > 8)
                 {
