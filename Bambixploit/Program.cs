@@ -79,7 +79,25 @@
             JsonConfiguration jsonConfiguration;
             try
             {
-                string content = File.ReadAllText("bambixploit.json");
+                string content;
+                if (File.Exists("bambixploit.json"))
+                {
+                    content = File.ReadAllText("bambixploit.json");
+                }
+                else if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + Path.DirectorySeparatorChar + "bambixploit.json"))
+                {
+                    content = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + Path.DirectorySeparatorChar + "bambixploit.json");
+                }
+                else if (File.Exists("/etc/bambixploit/bambixploit.json"))
+                {
+                    content = File.ReadAllText("/etc/bambixploit/bambixploit.json");
+                }
+                else
+                {
+                    Console.WriteLine("Could not find bambixploit,json in current directory, home directory or /etc/etc/bambixploit/.");
+                    return;
+                }
+
                 var deserialized = JsonSerializer.Deserialize<JsonConfiguration>(content, CamelCaseEnumConverterOptions);
                 if (deserialized == null)
                 {
