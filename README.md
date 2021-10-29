@@ -3,7 +3,7 @@ BambiXploit is ENOFLAG's public exploit parallelization tool.
 It will run a given exploit script for every opponent team with staggered starts, gather all flags the exploit writes to stdout, and automatically submit them.
 The target's address is passed as a command line parameter.
 
-TL;DR: `bambixploit python3 exploit.py`
+TL;DR: `bambixploit pwn python3 exploit.py`
 
 ## Usage
 ```
@@ -11,18 +11,31 @@ TL;DR: `bambixploit python3 exploit.py`
 Bambixploit
 
 Usage:
-  Bambixploit [options] <command> [<arguments>...] [command]
-
-Arguments:
-  <command>    the exploit command to run
-  <arguments>  arguments for the exploit
+  Bambixploit [options] [command]
 
 Options:
   --version       Show version information
   -?, -h, --help  Show help and usage information
 
 Commands:
-  template <Http>  template command description
+  template <Http>                       template command description
+  pwn <exploit_command> <exploit_args>  start running the exploit
+```
+
+```
+> bambixploit pwn --help
+pwn
+  start running the exploit
+
+Usage:
+  Bambixploit [options] pwn <exploit_command> [<exploit_args>...]
+
+Arguments:
+  <exploit_command>  the exploit command to run
+  <exploit_args>     arguments for the exploit
+
+Options:
+  -?, -h, --help  Show help and usage information
 ```
 
 ## Templates
