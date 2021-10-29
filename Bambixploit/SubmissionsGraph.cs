@@ -63,7 +63,7 @@
                 var maxOkFlags = currentStatistics[^1].OkFlags;
                 var timestampDiff = maxTimestamp - minTimestamp;
                 var flagsDiff = maxOkFlags - minOkFlags;
-                var yEnd = Math.Pow(10, Math.Ceiling(Math.Log10(maxOkFlags)));
+                var yEnd = Math.Max(1, Math.Pow(10, Math.Ceiling(Math.Log10(maxOkFlags))));
 
                 foreach (var flagStatistic in currentStatistics)
                 {
