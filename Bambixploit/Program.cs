@@ -40,22 +40,25 @@
 
         public static async Task<int> Main(string[] args)
         {
+            var rootCommand = new RootCommand();
             var templateCommand = new Command("template", "template command description")
             {
                 new Argument<ExploitTemplate>("templateType", "one of the supported templates"),
             };
             templateCommand.Handler = CommandHandler.Create<ExploitTemplate>(Template);
 
-            var rootCommand = new RootCommand()
+            var exploitCommand = new Command("pwn", "start running the exploit")
             {
-                new Argument<string>("command", "the exploit command to run")
+                new Argument<string>("exploit_command", "the exploit command to run")
                 {
                     Arity = ArgumentArity.ExactlyOne,
                 },
-                new Argument<string[]>("arguments", "arguments for the exploit"),
+                new Argument<string[]>("exploit_args", "arguments for the exploit"),
             };
-            rootCommand.Handler = CommandHandler.Create<string, string[]>(Pwn);
-            rootCommand.AddCommand(templateCommand);
+            exploitCommand.Handler = CommandHandler.Create<string, string[]>(Pwn);
+
+            rootCommand.Add(templateCommand);
+            rootCommand.Add(exploitCommand);
 
             return await rootCommand.InvokeAsync(args);
         }
@@ -65,11 +68,11 @@
             ExploitTemplates.PrintTemplate(template);
         }
 
-        public static void Pwn(string command, string[] arguments)
+        public static void Pwn(string exploit_command, string[] exploit_args)
         {
-            var argumentsString = string.Join(' ', arguments);
-            Console.WriteLine($"Pwn {command} {argumentsString}");
-            if (command.Length < 1)
+            var argumentsString = string.Join(' ', exploit_args);
+            Console.WriteLine($"Pwn {exploit_command} {argumentsString}");
+            if (exploit_command.Length < 1)
             {
                 Console.WriteLine($"Missing argument.");
                 return;
@@ -94,7 +97,7 @@
                 }
                 else
                 {
-                    Console.WriteLine("Could not find bambixploit,json in current directory, home directory or /etc/etc/bambixploit/.");
+                    Console.WriteLine("Could not find bambixploit.json in current directory, home directory or /etc/etc/bambixploit/.");
                     return;
                 }
 
@@ -116,7 +119,7 @@
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(new Configuration(
                     new Regex(jsonConfiguration.FlagRegex, RegexOptions.Compiled),
-                    command,
+                    exploit_command,
                     argumentsString,
                     jsonConfiguration.Interval,
                     jsonConfiguration.TargetsUrl,
