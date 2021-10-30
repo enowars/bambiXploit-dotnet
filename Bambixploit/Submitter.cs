@@ -66,6 +66,7 @@
                 catch (Exception e)
                 {
                     Console.Error.WriteLine($"{e.Message}\n{e.StackTrace}");
+                    await Task.Delay(1000);
                 }
             }
         }
