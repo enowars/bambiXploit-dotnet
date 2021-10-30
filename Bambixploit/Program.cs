@@ -97,7 +97,7 @@
                 }
                 else
                 {
-                    Console.WriteLine("Could not find bambixploit.json in current directory, home directory or /etc/etc/bambixploit/.");
+                    Console.WriteLine("Could not find bambixploit.json in current directory, home directory or /etc/bambixploit/ .");
                     return;
                 }
 
