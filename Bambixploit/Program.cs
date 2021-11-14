@@ -151,7 +151,7 @@
                     X = 0,
                     Y = 0,
                     Width = Dim.Fill(),
-                    Height = Dim.Fill(),
+                    Height = Dim.Fill(1),
                 };
 
                 var statusBar = new StatusBar(new StatusItem[]
