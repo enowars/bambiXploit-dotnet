@@ -6,7 +6,7 @@
     <RootNamespace>bambixploit</RootNamespace>
     <Nullable>enable</Nullable>
     <CodeAnalysisRuleSet>../ENOWARS.ruleset</CodeAnalysisRuleSet>
-    <Version>0.0.3</Version>
+    <Version>0.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>
