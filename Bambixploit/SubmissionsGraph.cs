@@ -81,23 +81,22 @@
                 this.AxisY.Increment = (float)roundedDiff / 25;
                 this.AxisY.ShowLabelsEvery = 5;
 
-                this.AxisX.Increment = 10;
-                this.AxisX.ShowLabelsEvery = 1;
+                this.AxisX.Increment = (float)(timestampDiff.TotalSeconds / 15.0);
+                this.AxisX.ShowLabelsEvery = 3;
 
                 this.ScrollOffset = new PointF(0, 0);
                 float cellWidth = Math.Max(0.00000001f, (float)timestampDiff.TotalSeconds / Math.Max(1, this.Frame.Width));
-                float cellHeight = (float)(Math.Max(10.0, roundedDiff) / Math.Max(1, this.Frame.Height));
-
-                if (cellHeight == 0)
-                {
-                    Console.WriteLine("wtf");
-                }
+                float cellHeight = (float)(1.1 * (Math.Max(10.0, roundedDiff) / Math.Max(1, this.Frame.Height)));
 
                 this.CellSize = new PointF(
                     cellWidth,
                     cellHeight);
 
-                this.SetNeedsDisplay();
+                if (cellHeight != 0)
+                {
+                    this.SetNeedsDisplay();
+                }
+
                 await Task.Delay(1000);
             }
         }

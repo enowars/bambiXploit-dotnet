@@ -32,13 +32,13 @@
                 newFlagStatistics.Add(new FlagsStatistic(
                     DateTimeOffset.UtcNow,
                     Interlocked.Read(ref okFlags)));
-                if (newFlagStatistics.Count > 8)
+                if (newFlagStatistics.Count > (60 * 5) + 1)
                 {
                     newFlagStatistics.RemoveAt(0);
                 }
 
                 FlagStatistics = newFlagStatistics;
-                await Task.Delay(10000);
+                await Task.Delay(1000);
             }
         }
     }
