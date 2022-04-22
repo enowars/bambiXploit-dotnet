@@ -9,6 +9,7 @@
     {
         private readonly PathAnnotation line = new();
         private DateTimeOffset begin = DateTimeOffset.UtcNow;
+        private long minFlags;
 
         public SubmissionsGraph()
             : base()
@@ -38,7 +39,7 @@
             };
 
             // this.AxisY.Text = "Flags";
-            this.AxisY.LabelGetter = (v) => v.Value.ToString("N0");
+            this.AxisY.LabelGetter = (v) => (v.Value + this.minFlags).ToString("N0");
 
             this.SetNeedsDisplay();
             this.Update();
@@ -57,13 +58,15 @@
 
                 this.line.Points.Clear();
                 var tickHeight = this.Frame.Width / 5;
-                var minTimestamp = this.begin = currentStatistics[0].Timestamp;
-                var minOkFlags = currentStatistics[0].OkFlags;
-                var maxTimestamp = currentStatistics[^1].Timestamp;
-                var maxOkFlags = currentStatistics[^1].OkFlags;
+                var oldestStatistic = currentStatistics[0];
+                var latestStatistic = currentStatistics[^1];
+                var flagsDiff = latestStatistic.OkFlags - oldestStatistic.OkFlags;
+                var minTimestamp = this.begin = oldestStatistic.Timestamp;
+                var maxTimestamp = latestStatistic.Timestamp;
                 var timestampDiff = maxTimestamp - minTimestamp;
-                var flagsDiff = maxOkFlags - minOkFlags;
-                var yEnd = Math.Max(1, Math.Pow(10, Math.Ceiling(Math.Log10(maxOkFlags))));
+                var yEnd = latestStatistic.OkFlags - (latestStatistic.OkFlags % 10) + 10;
+                var yStart = this.minFlags = oldestStatistic.OkFlags - (oldestStatistic.OkFlags % 10);
+                var roundedDiff = yEnd - yStart;
 
                 foreach (var flagStatistic in currentStatistics)
                 {
@@ -72,18 +75,18 @@
                     this.line.Points.Add(
                         new PointF(
                             (float)timestampOffset.TotalSeconds,
-                            okFlags));
+                            okFlags - this.minFlags));
                 }
 
-                this.AxisY.Increment = (float)yEnd / 5;
-                this.AxisY.ShowLabelsEvery = 1;
+                this.AxisY.Increment = (float)roundedDiff / 25;
+                this.AxisY.ShowLabelsEvery = 5;
 
                 this.AxisX.Increment = 10;
                 this.AxisX.ShowLabelsEvery = 1;
 
                 this.ScrollOffset = new PointF(0, 0);
                 float cellWidth = Math.Max(0.00000001f, (float)timestampDiff.TotalSeconds / Math.Max(1, this.Frame.Width));
-                float cellHeight = (float)(1.1f * Math.Max(10.0, yEnd) / Math.Max(1, this.Frame.Height));
+                float cellHeight = (float)(Math.Max(10.0, roundedDiff) / Math.Max(1, this.Frame.Height));
 
                 if (cellHeight == 0)
                 {
@@ -97,6 +100,16 @@
                 this.SetNeedsDisplay();
                 await Task.Delay(1000);
             }
+        }
+
+        private static int RoundUp(int input, int modulo)
+        {
+            if (input % modulo == 0)
+            {
+                return input;
+            }
+
+            return modulo - (input % modulo) + input;
         }
     }
 }
