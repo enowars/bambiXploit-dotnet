@@ -41,13 +41,13 @@
         public static async Task<int> Main(string[] args)
         {
             var rootCommand = new RootCommand();
-            var templateCommand = new Command("template", "template command description")
+            var templateCommand = new System.CommandLine.Command("template", "template command description")
             {
                 new Argument<ExploitTemplate>("templateType", "one of the supported templates"),
             };
             templateCommand.Handler = CommandHandler.Create<ExploitTemplate>(Template);
 
-            var exploitCommand = new Command("pwn", "start running the exploit")
+            var exploitCommand = new System.CommandLine.Command("pwn", "start running the exploit")
             {
                 new Argument<string>("exploit_command", "the exploit command to run")
                 {
