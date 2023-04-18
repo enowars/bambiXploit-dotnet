@@ -25,14 +25,14 @@ jobs:
            dotnet publish -c Release --self-contained true -p:DebugType=embedded -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r osx-x64
            # dotnet publish -c Release --self-contained true -p:DebugType=embedded -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true -r osx-arm64
            mkdir artifacts
-           mv ./Bambixploit/bin/Release/net5.0/win-x64/publish/Bambixploit.exe ./artifacts/bambixploit-windows-x64.exe
-           mv ./Bambixploit/bin/Release/net5.0/win-arm/publish/Bambixploit.exe ./artifacts/bambixploit-windows-arm.exe
-           mv ./Bambixploit/bin/Release/net5.0/win-arm64/publish/Bambixploit.exe ./artifacts/bambixploit-windows-arm64.exe
-           mv ./Bambixploit/bin/Release/net5.0/linux-x64/publish/Bambixploit ./artifacts/bambixploit-linux-x64
-           mv ./Bambixploit/bin/Release/net5.0/linux-arm/publish/Bambixploit ./artifacts/bambixploit-linux-arm
-           mv ./Bambixploit/bin/Release/net5.0/linux-arm64/publish/Bambixploit ./artifacts/bambixploit-linux-arm64
-           mv ./Bambixploit/bin/Release/net5.0/osx-x64/publish/Bambixploit ./artifacts/bambixploit-osx-x64
-           # mv ./Bambixploit/bin/Release/net5.0/osx-arm64/publish/Bambixploit ./artifacts/bambixploit-osx-arm64
+           mv ./Bambixploit/bin/Release/net6.0/win-x64/publish/Bambixploit.exe ./artifacts/bambixploit-windows-x64.exe
+           mv ./Bambixploit/bin/Release/net6.0/win-arm/publish/Bambixploit.exe ./artifacts/bambixploit-windows-arm.exe
+           mv ./Bambixploit/bin/Release/net6.0/win-arm64/publish/Bambixploit.exe ./artifacts/bambixploit-windows-arm64.exe
+           mv ./Bambixploit/bin/Release/net6.0/linux-x64/publish/Bambixploit ./artifacts/bambixploit-linux-x64
+           mv ./Bambixploit/bin/Release/net6.0/linux-arm/publish/Bambixploit ./artifacts/bambixploit-linux-arm
+           mv ./Bambixploit/bin/Release/net6.0/linux-arm64/publish/Bambixploit ./artifacts/bambixploit-linux-arm64
+           mv ./Bambixploit/bin/Release/net6.0/osx-x64/publish/Bambixploit ./artifacts/bambixploit-osx-x64
+           # mv ./Bambixploit/bin/Release/net6.0/osx-arm64/publish/Bambixploit ./artifacts/bambixploit-osx-arm64
       - name: Tree
         run: |
           tree ./artifacts
